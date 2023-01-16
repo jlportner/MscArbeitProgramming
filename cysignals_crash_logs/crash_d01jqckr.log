@@ -1,0 +1,141 @@
+GNU gdb (GDB) 12.1
+Copyright (C) 2022 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "x86_64-pc-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word".
+[New LWP 5147]
+[New LWP 5148]
+[New LWP 5152]
+[New LWP 5403]
+[New LWP 5404]
+[New LWP 5405]
+[New LWP 5406]
+[New LWP 5407]
+[New LWP 5408]
+[New LWP 5409]
+[New LWP 5855]
+[New LWP 5856]
+[New LWP 5857]
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+https://debuginfod.archlinux.org 
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+0x00007f8ee3e9c4b6 in ?? () from /usr/lib/libc.so.6
+
+Stack backtrace
+---------------
+No symbol table info available.
+#1  0x00007f8ee3e9efd4 in pthread_cond_timedwait () from /usr/lib/libc.so.6
+No symbol table info available.
+#2  0x00007f8ee4123e3c in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#3  0x00007f8ee41440c6 in PyEval_RestoreThread ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#4  0x00007f8ee41f789e in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#5  0x00007f8ee41f764f in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#6  0x00007f8ee4156f43 in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#7  0x00007f8ee414590a in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#8  0x00007f8ee41562d9 in _PyFunction_Vectorcall ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#9  0x00007f8ee414590a in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#10 0x00007f8ee4161446 in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#11 0x00007f8ee4146618 in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#12 0x00007f8ee41562d9 in _PyFunction_Vectorcall ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#13 0x00007f8ee41454d6 in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#14 0x00007f8ee41562d9 in _PyFunction_Vectorcall ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#15 0x00007f8ee414a03f in _PyEval_EvalFrameDefault ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#16 0x00007f8ee4144120 in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#17 0x00007f8ee41f1b94 in PyEval_EvalCode () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#18 0x00007f8ee4202323 in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#19 0x00007f8ee41fda8a in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#20 0x00007f8ee40a1979 in ?? () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#21 0x00007f8ee40a162a in _PyRun_SimpleFileObject ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#22 0x00007f8ee40a1fdd in _PyRun_AnyFileObject ()
+   from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#23 0x00007f8ee420eb0d in Py_RunMain () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#24 0x00007f8ee41e336b in Py_BytesMain () from /usr/lib/libpython3.10.so.1.0
+No symbol table info available.
+#25 0x00007f8ee3e3c290 in ?? () from /usr/lib/libc.so.6
+No symbol table info available.
+#26 0x00007f8ee3e3c34a in __libc_start_main () from /usr/lib/libc.so.6
+No symbol table info available.
+#27 0x000056199e63c045 in _start ()
+No symbol table info available.
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+Cython backtrace
+----------------
+#0  0x0000000000000000 in ?? ()
+#1  0x00007f8ee3e9edb0 in pthread_cond_timedwait ()
+#2  0x0000000000000000 in ?? ()
+#3  0x00007f8ee41440b0 in PyEval_RestoreThread ()
+#4  0x0000000000000000 in ?? ()
+#5  0x0000000000000000 in ?? ()
+#6  0x0000000000000000 in ?? ()
+#7  0x00007f8ee4145190 in _PyEval_EvalFrameDefault ()
+#8  0x00007f8ee4156260 in _PyFunction_Vectorcall ()
+#9  0x00007f8ee4145190 in _PyEval_EvalFrameDefault ()
+#10 0x0000000000000000 in ?? ()
+#11 0x00007f8ee4145190 in _PyEval_EvalFrameDefault ()
+#12 0x00007f8ee4156260 in _PyFunction_Vectorcall ()
+#13 0x00007f8ee4145190 in _PyEval_EvalFrameDefault ()
+#14 0x00007f8ee4156260 in _PyFunction_Vectorcall ()
+#15 0x00007f8ee4145190 in _PyEval_EvalFrameDefault ()
+#16 0x0000000000000000 in ?? ()
+#17 0x00007f8ee41f1b00 in PyEval_EvalCode ()
+#18 0x0000000000000000 in ?? ()
+#19 0x0000000000000000 in ?? ()
+#20 0x0000000000000000 in ?? ()
+#21 0x00007f8ee40a125e in _PyRun_SimpleFileObject ()
+#22 0x00007f8ee40a1f54 in _PyRun_AnyFileObject ()
+#23 0x00007f8ee420e730 in Py_RunMain ()
+#24 0x00007f8ee41e3330 in Py_BytesMain ()
+#25 0x0000000000000000 in ?? ()
+#26 0x00007f8ee3e3c2c0 in __libc_start_main ()
+#27 0x000056199e63c020 in _start ()
+
+[Inferior 1 (process 5139) detached]
