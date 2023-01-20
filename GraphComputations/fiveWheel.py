@@ -14,7 +14,6 @@ for i,e in enumerate(G.edges):
     G.edges[e]['order'] = i+1
 
 nx.write_edgelist(G,"fiveWheel")
-exit()
 
 C = [[2,G],[-5,H]]
 

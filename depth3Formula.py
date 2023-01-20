@@ -54,7 +54,7 @@ def fullRankMatAndRhs(n,mpl=None):
             varList += [(a,b,d)]
             M += [matLine(m, a, b, c, d)]
             line = simplifyWithMaple(mpl,rhsLine(n,a,b,c,d))
-            rhs += [convertToBrownBasis(line)]
+            rhs += [line]
 
 
     M = np.array(M, dtype=int)
@@ -239,15 +239,18 @@ def cDepth3(n,mpl=None):
     A = matrix(A)
     #print(A)
     b = matrix(b).T
-    return A.solve_right(b),varList
+    sol = A.solve_right(b)
+    sol = [x[0] for x in sol]
+    return sol,varList
 
 
 def checkDimension(exprList):
-    base = [zeta(5,3,5), zeta(3,7,3), zeta(5,3) * zeta(5),zeta(5),zeta(5)**2 * zeta(3), zeta(7) * zeta(3)**2,zeta(7,3) * zeta(3), zeta(13)]
-    #base = [zeta(5) * zeta(3)**2, zeta(5,3) * zeta(3), zeta(11), zeta(3,5,3)]
+    base = [zetaSV(5,5,3), zetaSV(7,3,3), zeta(5)**2 * zeta(3), zeta(7) * zeta(3)**2, zeta(13)]
+    #base = [zetaSV(5,3,3),zeta(5) * zeta(3)**2, zeta(11),]
     M = []
     for expr in exprList:
         line = []
+        expr = convertToSingleValuedSchnetz(expr)
         expr = SR(str(expr))
         for b in base:
             coef = expr.coefficient(b)
@@ -263,8 +266,9 @@ def checkDimension(exprList):
 if __name__ == "__main__":
     #createCache()
 
-    print(ATDepth3(4,2,0,4))
-    exit()
+
+
+
     #x^3 y y y x^5
     n = 6
     m = 2 * n - 2

@@ -12,17 +12,21 @@ def binom(n,k):
 
 
 
-for n in range(1,10):
-    for a in range(n):
-        c = 2 * n - 1 - a
-        assert(c > a)
-        #r1 = binom(2*s,c) + (-1)**a * binom(2*s,a)**2
-        #r2 = binom(2*s,a) * binom(2*n-2 -2*s,c) * (-1)**(a+1)
-        #print(r1,r2,r2-r1)
-        result = 0
-        for k in range(c + 1):
-            result += binom(2 * n - (k + 1), a) * binom(2 * n + 1, k + 1) * (-1) ** k
+for n in range(4,5):
+    #attention a is not 0
+    for a in range(1, 2 * n):
+        for c in range(0, 2 * n - a):
+            b = 2 * n - 1 - c - a
 
-        print(result - binom(2*n,a) + (-1)**a)
-        
-print(result)
+            p1 = 0
+            for i in range(0,n):
+                p1 += (-1)**(a-c) * (binom(2*n,i+1) - binom(2*n,i) + (-1)**i) * (-1)**(i+1) * (binom(i,a) * binom(2*n-1-i,c) + binom(i,c) * binom(2*n-1-i,a))
+
+            p2 = 0
+            for i in range(0,c+1):
+                p2 += binom(a+i,a) * binom(b+c-i,b) * (binom(2*n,b+c-i) + binom(2*n,a+i) + (-1)**a)
+
+            if p2 != 0:
+                print(p1/p2)
+            else:
+                print(p1,p2)

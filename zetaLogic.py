@@ -4,7 +4,7 @@ from sage.all import *
 
 
 zeta = function("zeta")
-
+zetaSV = function("zetaSV", latex_name="\\zeta_{\\text{sv}}")
 def binom(n,k):
     if k < 0:
         return 0
@@ -17,7 +17,7 @@ def evenZeta(n):
 def parityThm(n,m):
     k = m+n
     if k % 2 != 1:
-        warnings.warn("Parity Theorem only works for odd n+m, returning originial zeta")
+        #warnings.warn("Parity Theorem only works for odd n+m, returning originial zeta")
         return zeta(n,m)
     else:
         K = int((m+n-1)/2)
@@ -93,6 +93,27 @@ def convertToBrownBasis(expr):
     expr = expr.subs(zeta(7,3,3)==zeta733to373)
     return expand(expr)
 
+def convertToSingleValued(expr):
+    z353tozSV353 = Rational(1/2) * zetaSV(3,5,3) + zeta(3) * zeta(5,3) + 5 * zeta(3)**2 * zeta(5)
+    z535tozSV535 =  Rational(1/2) * zetaSV(5,3,5) + 11*zeta(5)*zeta(5,3) + 60*zeta(5)**2 * zeta(3) + 5*zeta(5) * evenZeta(8)
+    z373tozSV373 = Rational(1/2) * zetaSV(3,7,3) + zeta(3) * zeta(7,3) + 14 * zeta(3)**2 * zeta(7) + 12*zeta(5) * zeta(5,3) + 72 * zeta(5)**2 * zeta(3) + 6*zeta(5)*evenZeta(8)
+    expr = expr.subs(zeta(3,5,3)==z353tozSV353)
+    expr = expr.subs(zeta(5,3,5)==z535tozSV535)
+    expr = expr.subs(zeta(3,7,3)==z373tozSV373)
+    return expand(expr)
+
+def convertToSingleValuedSchnetz(expr):
+    z533tozSV533 = Rational(1/2) * (Rational(1/189)*pi**6*zeta(5) - Rational(1/15)*pi**4*zeta(7) - 15*pi**2*zeta(9) + 5*zeta(5)*zeta(3)**2 + zetaSV(5, 3, 3))
+    z553tozSV553 = Rational(1/2) * (Rational(-5/9)*pi**4*zeta(9) - Rational(275/6)*pi**2*zeta(11) - 50*zeta(5)**2*zeta(3) - 10*zeta(5, 3)*zeta(5) + zetaSV(5, 5, 3))
+    z733tozSV733 = Rational(1/2) * (Rational(8/945)*pi**6*zeta(7) - Rational(28/45)*pi**4*zeta(9) - Rational(407/6)*pi**2*zeta(11) - 60*zeta(5)**2*zeta(3) + 14*zeta(7)*zeta(3)**2 - 12*zeta(5,3)*zeta(5) + zetaSV(7,3,3))
+    z933tozSV933 = Rational(1/2) * (Rational(-1/1575)*pi**8*zeta(7) - Rational(29/945)*pi**6*zeta(9) - Rational(14/5)*pi**4*zeta(11) - Rational(403/2)*pi**2*zeta(13) - 72*zeta(5)**3 - 318*zeta(7)*zeta(5)*zeta(3) + 27*zeta(9)*zeta(3)**2 - 30*zeta(7)*zeta(5, 3) - 12*zeta(7, 3)*zeta(5) + zetaSV(9,3,3))
+    z735tozSV735 = Rational(1/2) * (Rational(2/31185)*pi**10*zeta(5) + Rational(2/675)*pi**8*zeta(7) + Rational(34/945)*pi**6*zeta(9) - Rational(11/9)*pi**4*zeta(11) - Rational(1001/6)*pi**2*zeta(13) + 78*zeta(5)**3 + 336*zeta(7)*zeta(5)*zeta(3) + 28*zeta(7)*zeta(5, 3) + 12*zeta(7, 3)*zeta(5) + zetaSV(7,3,5))
+    expr = expr.subs(zeta(5,3,3)==z533tozSV533)
+    expr = expr.subs(zeta(5,5,3)==z553tozSV553)
+    expr = expr.subs(zeta(7,3,3)==z733tozSV733)
+    expr = expr.subs(zeta(9,3,3)==z933tozSV933)
+    expr = expr.subs(zeta(7,3,5)==z735tozSV735)
+    return expand(expr)
 
 if __name__ == "__main__":
     mpl = startHyperlogProd()

@@ -33,14 +33,6 @@ for a in range(0,m+1):
 M = np.array(M, dtype=int)
 print(M)
 
-def ad(s):
-    if s == 0:
-        return y
-    else:
-        expr = [x,y]
-        for i in range(s-1):
-            expr = [x,expr]
 
-    return expr
 
 #print(ad(5))

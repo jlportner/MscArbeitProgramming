@@ -153,20 +153,24 @@ exit()
 #exit()
 mpl = startHyperlogProd()
 
-for n in range(3, 6):
+for n in range(6, 7):
     #n=2
     print("\\subsection{n=%d}" % n, )
     print("\\begin{align*}")
     sol,varList = cDepth3(n,mpl=mpl)
     for j,x in enumerate(sol):
-        latexStr = latex(x)[6:-7]
+        x = convertToSingleValuedSchnetz(x)
+        latexStr = latex(x)
         if n >= 5:
             i=1
-            breakInd = find_nth(latexStr, "\\frac", 4*i+1) - 2
+            termsPerLine = 3
+            if n >= 7:
+                termsPerLine = 3
+            breakInd = find_nth(latexStr, "\\frac", termsPerLine*i+1) - 2
             while breakInd > 0:
                 latexStr = latexStr[:breakInd] + "\\\\ &" + latexStr[breakInd:]
                 i+=1
-                breakInd = find_nth(latexStr, "\\frac", 4 * i + 1) - 2
+                breakInd = find_nth(latexStr, "\\frac", termsPerLine * i + 1) - 2
         print("c_{%d,%d,%d}" % varList[j], "&=", latexStr, "\\\\")
     print("\\end{align*}")
 

@@ -1,6 +1,5 @@
 import numpy as np
 from sage.all import *
-import sage.modular.multiple_zeta as mzv
 from mapleHandler import *
 from timeit import default_timer as timer
 from zetaLogic import *

@@ -84,6 +84,14 @@ def simplifyWithMaple(mpl,expr):
     optimizedExpr = mpl("Convert(Convert(" + exStr + ",f),zeta)")
     return parseMapleToSage(str(optimizedExpr))
 
+def mapToSingleValued(mpl,expr):
+    exStr = str(expr)
+    exStr = str(expr)
+    exStr = parseStringToMaple(exStr)
+
+    optimizedExpr = mpl("Convert(MapSV(" + exStr + "),zeta)")
+    return parseMapleToSage(str(optimizedExpr))
+
 def startHyperlogProd():
     mpl = Maple(script_subdirectory="/media/Transfer/ETH/MscProgramming/hyperlog/")
     mpl.read("HyperlogProcedures")
