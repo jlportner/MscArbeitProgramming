@@ -221,9 +221,6 @@ def createCache():
         f.write(data)
     return
 
-
-
-
 def cabc(alpha,beta,gamma):
     if not hasattr(cabc, "cache"):
         with open('cabcCache.dat', 'r') as f:

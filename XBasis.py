@@ -121,8 +121,6 @@ def assAction(A,B):
 def IharaBracket(A,B):
     return assAction(A,B) - assAction(B,A)
 
-
-
 def adjustCabc(alpha,beta,gamma,n):
     res = cabc(alpha,beta,gamma)
     res = convertToSingleValuedSchnetz(res)
@@ -225,7 +223,7 @@ def n5():
     print(temp)
 
 
-def n7():
+def n6():
     e1, e2, e3 = var("e1,e2,e3")
     #createCache()
     #exit()

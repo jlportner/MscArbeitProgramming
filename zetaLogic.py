@@ -24,7 +24,8 @@ def parityThm(n,m):
 
     result = 0
     for s in range(0,K):
-            result += (binom(k-2*s-1,m-1) + binom(k-2*s-1,n-1) - kronecker_delta(n,2*s) + (-1)**m * kronecker_delta(s,0)) * evenZeta(2*s) * zeta(k-2*s)
+        result += (binom(k-2*s-1,m-1) + binom(k-2*s-1,n-1) - kronecker_delta(n,2*s) + (-1)**m * kronecker_delta(s,0)) * evenZeta(2*s) * zeta(k-2*s)
+        break
 
     return (-1)**m * result
 
