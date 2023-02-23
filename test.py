@@ -8,7 +8,7 @@ def binom(n,k):
     else:
         return math.comb(n,k)
 
-
+"""
 #n = 10
 mpl = startHyperlogProd()
 
@@ -42,3 +42,32 @@ for n in range(4,5):
             else:
                 print(p1,p2)
 
+"""
+def ATDepth2(a,b,c):
+    if (a+b+c) % 2 == 1:
+        return 0
+    n = int((a+b+c+2) / 2)
+    result = KZCoefDepth2(a,b,c)
+    for l in range(1,n-1):
+        m = n-1-l
+        interCoef = binom(2*l,a) * binom(2*m,c) * Integer(-1)**(a-c)
+        interCoef += binom(2 * l, a) * binom(2 * m, b) * Integer(-1) **(a+b)
+        interCoef -= binom(2 * l, c) * binom(2 * m, b) * Integer(-1) **(b+c)
+        result += J2lm(l,m,Rational(1/2)) * c2n(l) * c2n(m) * interCoef
+    for s in range(1,b+a):
+        p = b + a - 2 * s
+        interCoef = binom(p+c,p) * binom(2*s,a) * Integer(-1)**(a+c+1)
+        interCoef -= binom(p+c,p) * binom(2*s,b) * Integer(-1)**(b+c+1)
+        result += zeta(2*s+1) * zeta(p+c+1) / (2*pi*i)**(2*n) * interCoef
+
+    for s in range(1,b+c):
+        q = b + c - 2 * s
+        interCoef = binom(q+a,q) * binom(2*s,b) * Integer(-1)**(b+q+1)
+        result += zeta(2*s+1) * zeta(a+q+1) / (2*pi*i)**(2*n) * interCoef
+
+    return result
+
+mpl = startHyperlogProd()
+
+res = ATDepth2(0,4,2)
+print(simplifyWithMaple(mpl,res))

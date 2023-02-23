@@ -149,6 +149,34 @@ def XDepth3(n):
 
     return result
 
+def adjustCabcForSigma(alpha,beta,gamma,n):
+    res = cabc(alpha,beta,gamma)
+    res = convertToSingleValuedSchnetz(res)
+    if n == 5:
+        e1,e2 = var("e1,e2")
+        res = res.subs(zetaSV(5,3,3) == e2 - Rational(22020/3553) * zeta(3)**2 * zeta(5), zeta(11)==e1 * (2*pi*i)**11)
+        res = res.expand()
+        res = res.subs(e2==0)
+    elif n==6:
+        e1,e2,e3 = var("e1,e2,e3")
+        res = res.subs(zeta(13)==e1 * (2*pi*i)**13,zetaSV(5,5,3) == e2 + Rational(203950/5681) * zeta(5)**2 * zeta(3))
+        res = res.subs(zetaSV(7,3,3) == e3 + Rational(244740/5681) * zeta(5)**2 * zeta(3) - Rational(123508/7429)* zeta(7) * zeta(3)**2)
+        res = res.expand()
+        res = res.subs(e2==0,e3==0)
+    return res
+def sigmaNContrib(n):
+    m = 2 * n - 2
+    result = LieElement()
+    normalizer = adjustCabcForSigma(0, 0, m, n)
+    print(normalizer)
+    for gamma in reversed(range(int(m / 3 + 1), m + 1)):
+        for beta in range(min(m - gamma + 1, gamma) - 1, max(0, m - 2 * gamma) - 1, -1):
+            alpha = m - beta - gamma
+            assert 0 <= beta < gamma and 0 <= alpha <= gamma
+            expr = "[\\ad_x^{%d}(y),[\\ad_x^{%d}(y),\\ad_x^{%d}(y)]]" % (alpha,beta,gamma)
+            print(latex(adjustCabcForSigma(alpha,beta,gamma,n) / normalizer),expr)
+            print
+
 def bracketingStrToElement(expr):
     opener = -1
     comma = -1
@@ -176,15 +204,14 @@ def bracketingStrToElement(expr):
     return LieElement({expr.strip():1})
 
 def sigma5Depth3():
-    return 20*bracketingStrToElement("[x,[x,[x,[x,y]]]]") #+ 50 * bracketingStrToElement("[[x,[x,y]],[x,y]]")
-
+    return 20*bracketingStrToElement("[x,[x,[x,[x,y]]]]") + 10 * bracketingStrToElement("[[x,y],[x,[x,y]]]") + 40 * bracketingStrToElement("[y,[x,[x,[x,y]]]]")
 
 def sigma3Depth3():
-    return -24*bracketingStrToElement("[x,[x,y]]") #+ 24 * bracketingStrToElement("[[x,y],y]")
+    return -24*bracketingStrToElement("[x,[x,y]]") + 24 * bracketingStrToElement("[[x,y],y]")
 
 def sigma7Depth3():
-    return 14 * bracketingStrToElement("[x, [x, [x, [x, [x, [x, y ]]]]]]") #- 14 * bracketingStrToElement("[x, [x, [x, [x, [[x, y ], y ]]]]]")\
-        #- 42 * bracketingStrToElement("[x, [x, [[x, [x, y ]], [x, y ]]]]") + 56 * bracketingStrToElement("[[x, [x, [x, y ]]], [x, [x, y ]]]")
+    return -14 * bracketingStrToElement("[x, [x, [x, [x, [x, [x, y ]]]]]]") - 42 * bracketingStrToElement("[[x,[x,y]],[x,[x,[x,y]]]]") \
+        - 56 * bracketingStrToElement("[[x,y],[x,[x,[x,[x,y]]]]]") - 42 * bracketingStrToElement("[y,[x,[x,[x,[x,[x,y]]]]]]")
 
 def discardHigherDepths(A,n):
     result = {}
@@ -244,7 +271,7 @@ def n6():
     s733 = IharaBracket(s3, I1)
     s733 = discardHigherDepths(s733, 3)
     s733 = discardZeros(s733)
-    s733 *= Rational(482885/672)*e2/(2*i*pi)**13 - Rational(2414425/4032)*e3/(2*i*pi)**13
+    s733 *= -Rational(482885/672)*e2/(2*i*pi)**13 + Rational(2414425/4032)*e3/(2*i*pi)**13
     #print(s733)
 
     X13 = XDepth3(6)
@@ -254,4 +281,6 @@ def n6():
     print(temp)
 
 if __name__ == "__main__":
-    n5()
+    print(n6())
+
+    #sigmaNContrib(5)

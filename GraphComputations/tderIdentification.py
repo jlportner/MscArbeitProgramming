@@ -103,8 +103,8 @@ def step6Willwacher(C):
     C = resolveDirectedMarkedVanishing(C)
     tderEl = tderToLie(C)
     assert len(tderEl) == 2
-    expr = tderEl[0].replace("X2","Y").replace("X1","X") + " - " + tderEl[1].replace("X2","Y").replace("X1","X")
-    return simplifyLieExpressionWithSage(expr,["X","Y"])
+    expr = tderEl[0].replace("X2","Y").replace("X1","X") + " - (" + tderEl[1].replace("X2","Y").replace("X1","X") + ")"
+    return simplifyLieExpressionWithSage(expr,["Y","X"])
 
 def simplifyLieExpressionWithSage(expr, vars):
     cmd = "L.<"

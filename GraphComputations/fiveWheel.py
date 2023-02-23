@@ -1,6 +1,7 @@
 import networkx as nx
 import numpy as np
 from GCboundary import *
+from sage.all import *
 from tderIdentification import *
 path = "/media/Transfer/ETH/MscArbeit/Images/"
 
@@ -15,7 +16,7 @@ for i,e in enumerate(G.edges):
 
 nx.write_edgelist(G,"fiveWheel")
 
-C = [[2,G],[-5,H]]
+C = [[1,G],[-Rational(5/2),H]]
 
 pos6Cycle = lambda x: nx.circular_layout(nx.cycle_graph(6),center=x, scale=100)
 pos7Cycle = lambda x: nx.circular_layout(nx.cycle_graph(7),center=x, scale=100)

@@ -1,6 +1,5 @@
 import warnings
 from sage.all import *
-#from mzvCalc import *
 
 
 zeta = function("zeta")

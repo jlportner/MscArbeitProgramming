@@ -263,6 +263,23 @@ def checkDimension(exprList):
 if __name__ == "__main__":
     #createCache()
 
+    #print(c2n(2))
+    #print(cabGuess(2, 0, 3))
+    #print(cabGuess(2,1,2))
+    #print(cabc(1,0,1))
+    #print(cabc(0,0,2))
+    #exit()
+
+    print(Rational(32/429) * cabc(0, 1, 3))
+    print(Rational(32/429) * cabc(2, 0, 2))
+    print(Rational(32/429) * cabc(1, 0, 3))
+    print(Rational(32/429) * cab(3,0,5))
+    print(Rational(32/429) * cabc(1, 1, 2))
+    print(Rational(32/429) * cab(3, 1, 4))
+    print(Rational(32/429) * cab(3, 2, 3))
+    print(Rational(32/429) * c2n(3))
+    exit()
+
 
 
 

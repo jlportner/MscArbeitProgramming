@@ -61,8 +61,8 @@ def interpolationAssociatorDepth3(a,b,c,d,t=1,mpl=None):
     return result
 
 if __name__ == "__main__":
-    #interpolationAssociatorDepth3(4, 2, 0, 4)
-
+    print(ATCoefDepth3(0,0,1,4))
+    exit()
     mpl = startHyperlogProd()
     for n in range(6,7):
         m = n - 3
