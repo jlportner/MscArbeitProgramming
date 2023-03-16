@@ -141,7 +141,7 @@ if __name__ == "__main__":
     #print(simplifyWithMaple(mpl,regZetaSchnetz(*tpl)))
     #print(simplifyWithMaple(mpl,regZetaWithHyperlog(*tpl)))
 
-
+    """
     for n in range(1,20):
         print("\\subsection{n=%d}" % n,)
         print("\\begin{align*}")
@@ -152,4 +152,4 @@ if __name__ == "__main__":
             print(ck-cGuess)
             #print("c_{%d,%d} &=" % (alpha,beta),latex(ck), "\\\\")
         print("\\end{align*}")
-
+    """

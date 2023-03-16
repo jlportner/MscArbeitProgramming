@@ -47,3 +47,13 @@ pltChain(tder,pos6Cycle,path=path+"fiveWheelTder")
 
 phiElement = step6Willwacher(T)
 print(phiElement)
+
+res = deltaMarkedGraphs(gamma2)
+res = resolveMarkedIsos(res)
+res = resolveMarkedVanishing(res)
+
+#res = [[-cof,G] for (cof,G) in res]
+res += gamma2Dash
+res = resolveMarkedIsos(res)
+print(res)
+#pltChain(res,pos7Cycle,path="out")

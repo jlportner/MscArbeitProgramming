@@ -210,7 +210,7 @@ def createCache():
     mpl = startHyperlogProd()
 
     cache = {}
-    for n in range(2,7):
+    for n in range(2,8):
         c, varlist = cDepth3(n,mpl)
         for val,key in zip(c,varlist):
             cache[key] = val
@@ -242,7 +242,8 @@ def cDepth3(n,mpl=None):
 
 
 def checkDimension(exprList):
-    base = [zetaSV(5,5,3), zetaSV(7,3,3), zeta(5)**2 * zeta(3), zeta(7) * zeta(3)**2, zeta(13)]
+    base = [zetaSV(9,3,3), zetaSV(7,3,5), zeta(5)**3, zeta(7) * zeta(5) * zeta(3), zeta(9) * zeta(3)**2, zeta(15)]
+    #base = [zetaSV(5,5,3), zetaSV(7,3,3), zeta(5)**2 * zeta(3), zeta(7) * zeta(3)**2, zeta(13)]
     #base = [zetaSV(5,3,3),zeta(5) * zeta(3)**2, zeta(11),]
     M = []
     for expr in exprList:
@@ -263,28 +264,8 @@ def checkDimension(exprList):
 if __name__ == "__main__":
     #createCache()
 
-    #print(c2n(2))
-    #print(cabGuess(2, 0, 3))
-    #print(cabGuess(2,1,2))
-    #print(cabc(1,0,1))
-    #print(cabc(0,0,2))
-    #exit()
-
-    print(Rational(32/429) * cabc(0, 1, 3))
-    print(Rational(32/429) * cabc(2, 0, 2))
-    print(Rational(32/429) * cabc(1, 0, 3))
-    print(Rational(32/429) * cab(3,0,5))
-    print(Rational(32/429) * cabc(1, 1, 2))
-    print(Rational(32/429) * cab(3, 1, 4))
-    print(Rational(32/429) * cab(3, 2, 3))
-    print(Rational(32/429) * c2n(3))
-    exit()
-
-
-
-
     #x^3 y y y x^5
-    n = 6
+    n = 7
     m = 2 * n - 2
     mpl = startHyperlogProd()
     sol, _ = cDepth3(n,mpl)

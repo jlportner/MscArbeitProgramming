@@ -13,7 +13,7 @@ def wheelLayout(n,center = (0,0)):
     return pos
 
 
-G = nx.wheel_graph(14,nx.MultiGraph)
+G = nx.wheel_graph(4,nx.MultiGraph)
 for i,e in enumerate(G.edges):
     G.edges[e]['order'] = i+1
 
@@ -21,16 +21,18 @@ for i,e in enumerate(G.edges):
 #for i,e in enumerate(G.edges):
 #    G.edges[e]['order'] = i+1
 
-C = [[1,G],[1,G],[1,G]]
+C = [[1,G]]
 
-posWheel = lambda x: wheelLayout(13,center=(600,0))
-pltChain(C,posWheel,path=path+"wheel11and13_2")
+posWheel = lambda x: wheelLayout(3,center=(600,0))
+pltChain(C,posWheel,path="out")
 
-exit()
+#exit()
 
 gamma2 = psiWillwacher(C)
 gamma2 = resolveMarkedIsos(gamma2)
 gamma2 = resolveMarkedVanishing(gamma2)
+pltChain(gamma2,posWheel,path="out2")
+exit()
 
 T = forgetNonTreePart(gamma2)
 

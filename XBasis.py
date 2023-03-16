@@ -152,7 +152,11 @@ def XDepth3(n):
 def adjustCabcForSigma(alpha,beta,gamma,n):
     res = cabc(alpha,beta,gamma)
     res = convertToSingleValuedSchnetz(res)
-    if n == 5:
+    if n==4:
+        e1= var("e1")
+        res = res.subs(zeta(9)==e1 * (2*pi*i)**9)
+        res = res.expand()
+    elif n == 5:
         e1,e2 = var("e1,e2")
         res = res.subs(zetaSV(5,3,3) == e2 - Rational(22020/3553) * zeta(3)**2 * zeta(5), zeta(11)==e1 * (2*pi*i)**11)
         res = res.expand()
@@ -164,18 +168,45 @@ def adjustCabcForSigma(alpha,beta,gamma,n):
         res = res.expand()
         res = res.subs(e2==0,e3==0)
     return res
+def adjustCabForSigma(n,alpha,beta):
+    res = cab(n,alpha,beta)
+    if n == 5:
+        e1 = var("e1")
+        res = res.subs(zeta(11)==e1 * (2*pi*i)**11)
+        res = res.expand()
+    elif n==6:
+        e1 = var("e1")
+        res = res.subs(zeta(13)==e1 * (2*pi*i)**13)
+        res = res.expand()
+    return res
+
+
 def sigmaNContrib(n):
-    m = 2 * n - 2
-    result = LieElement()
-    normalizer = adjustCabcForSigma(0, 0, m, n)
+
+    normalizer = c2n(n)
+    e1 = var("e1")
+    normalizer = normalizer.subs(zeta(2*n+1) == e1 * (2*pi*i)**(2*n+1))
     print(normalizer)
+    print(latex(normalizer/ normalizer), "\\ad_x^{%d}(y)" % (2*n))
+
+    m = 2*n-1
+    for beta in range(m, n-1,-1):
+        alpha = m-beta
+        assert 0 <= alpha < beta
+        expr = "[\\ad_x^{%d}(y),\\ad_x^{%d}(y)]" % (alpha, beta)
+        print(latex(adjustCabForSigma(n,alpha,beta)/normalizer),expr)
+
+    m = 2 * n - 2
     for gamma in reversed(range(int(m / 3 + 1), m + 1)):
         for beta in range(min(m - gamma + 1, gamma) - 1, max(0, m - 2 * gamma) - 1, -1):
             alpha = m - beta - gamma
             assert 0 <= beta < gamma and 0 <= alpha <= gamma
             expr = "[\\ad_x^{%d}(y),[\\ad_x^{%d}(y),\\ad_x^{%d}(y)]]" % (alpha,beta,gamma)
             print(latex(adjustCabcForSigma(alpha,beta,gamma,n) / normalizer),expr)
-            print
+
+
+
+
 
 def bracketingStrToElement(expr):
     opener = -1
@@ -204,7 +235,7 @@ def bracketingStrToElement(expr):
     return LieElement({expr.strip():1})
 
 def sigma5Depth3():
-    return 20*bracketingStrToElement("[x,[x,[x,[x,y]]]]") + 10 * bracketingStrToElement("[[x,y],[x,[x,y]]]") + 40 * bracketingStrToElement("[y,[x,[x,[x,y]]]]")
+    return 10*bracketingStrToElement("[x,[x,[x,[x,y]]]]") + 5 * bracketingStrToElement("[[x,y],[x,[x,y]]]") + 20 * bracketingStrToElement("[y,[x,[x,[x,y]]]]")
 
 def sigma3Depth3():
     return -24*bracketingStrToElement("[x,[x,y]]") + 24 * bracketingStrToElement("[[x,y],y]")
@@ -241,7 +272,7 @@ def n5():
     s335 = IharaBracket(s3, I1)
     s335 = discardHigherDepths(s335, 3)
     s335 = discardZeros(s335)
-    s335 *= Rational(-323323/4800) * e2 / (2*pi*i)**11
+    s335 *= Rational(-323323/2400) * e2 / (2*pi*i)**11
     X5 = XDepth3(5)
     X5 = discardZeros(X5)
 
@@ -263,7 +294,7 @@ def n6():
     s553 = IharaBracket(s5, I1)
     s553 = discardHigherDepths(s553, 3)
     s553 = discardZeros(s553)
-    s553 *= Rational(-676039/2400)*e2/(2*i*pi)**13
+    s553 *= Rational(-676039/600)*e2/(2*i*pi)**13
     #print(s553)
 
     I1 = IharaBracket(s3, s7)
@@ -281,6 +312,8 @@ def n6():
     print(temp)
 
 if __name__ == "__main__":
-    print(n6())
+    #createCache()
+    n5()
+    #print(n6())
 
-    #sigmaNContrib(5)
+    #sigmaNContrib(6)

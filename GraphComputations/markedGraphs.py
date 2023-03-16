@@ -120,14 +120,14 @@ def deltaMarkedGraphs(C):
                 if G.degree[v] >= 2:
                     HExt.nodes[0]["extNr"] = G.nodes[v]["extNr"]
                     out= graphComposition(G,HExt,v,coef=cof)
-                    for el in out:
-                        el[0] *= -1
+                    #for el in out:
+                    #    el[0] *= 1
                     dG += out
             else:
                 if G.degree[v] >= 4:
                     out = graphComposition(G, HInt, v, coef=cof)
                     for el in out:
-                        el[0] *= -1/2
+                        el[0] *= 1/2
                     dG += out
 
     dC = []

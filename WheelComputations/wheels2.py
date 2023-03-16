@@ -128,11 +128,11 @@ def wheelValue(k):
         result += C[e] * (-1)**m * binom(n+m,n)
     return result
 if __name__ == "__main__":
-    print(f(1))
+    #print(f(1))
     #print(fTil(2))
-    print(f(3))
-    print(claimf(3))
-    #exit()
+    print(f(5))
+    print(claimf(5))
+    exit()
     n=3
     print(fTil(n))
     print(claimfTil(n))
