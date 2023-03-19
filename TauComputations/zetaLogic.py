@@ -1,8 +1,11 @@
 import warnings
 from sage.all import *
-
+from mapleHandler import *
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 zeta = function("zeta")
+
 zetaSV = function("zetaSV", latex_name="\\zeta_{\\text{sv}}")
 def binom(n,k):
     if k < 0:
@@ -114,24 +117,3 @@ def convertToSingleValuedSchnetz(expr):
     expr = expr.subs(zeta(9,3,3)==z933tozSV933)
     expr = expr.subs(zeta(7,3,5)==z735tozSV735)
     return expand(expr)
-
-if __name__ == "__main__":
-    mpl = startHyperlogProd()
-
-    n = 4
-    m = 2*n-2
-    #print(zetaDepth2(2,2,3))
-    #exit()
-    print("Start")
-    for a in range(0, m + 1):
-        for b in range(0, m + 1 - a):
-            for d in range(0, m + 1 - a - b):
-                c = m - a - b - d
-                #a,b,c,d = 0,0,3,1
-                #print(a,b,c,d)
-                D1 =(simplifyWithMaple(mpl,regZetaWithHyperlog(a,b,c,d,mpl=mpl)))
-                D2 = (simplifyWithMaple(mpl,zetaDepth3(a,b,c,d)))
-                D3 = (simplifyWithMaple(mpl, zetaDepth3Correct(a,b,c,d)))
-                if D1 != D2 or D1 != D3:
-                    print(a,b,c,d)
-                #exit()

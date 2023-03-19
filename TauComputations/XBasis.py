@@ -1,11 +1,5 @@
 from depth3Formula import *
 
-#L= LieAlgebra(SR, "x,y", representation="polynomial")
-#x,y = L.gens()
-
-#mzv = function("mzv")
-
-
 class LieElement(dict):
     #expr = {}
     def __init__(self,data=None):
@@ -137,7 +131,35 @@ def adjustCabc(alpha,beta,gamma,n):
         res = res.subs(e1 == 0)
     return res
 
-def XDepth3(n):
+def bracketingStrToElement(expr):
+    opener = -1
+    comma = -1
+    depth = 0
+    for i in range(len(expr)):
+        if expr[i] == '[':
+            if opener == -1:
+                opener = i
+            else:
+                depth +=1
+        if expr[i] == ']':
+            if depth == 0:
+                if comma == -1:
+                    raise ValueError("Missing ',' in expression")
+                else:
+                    A = bracketingStrToElement(expr[opener+1:comma])
+                    B = bracketingStrToElement(expr[comma+1:i])
+                    return lieBracket(A,B)
+            else:
+                depth -= 1
+
+        if opener != -1 and expr[i] == ',' and depth == 0:
+            comma = i
+
+    return LieElement({expr.strip():1})
+
+#END of Lie Element functions
+
+def tauDepth3(n):
     m = 2*n-2
     result = LieElement()
     for gamma in range(int(m / 3 + 1), m + 1):
@@ -180,7 +202,6 @@ def adjustCabForSigma(n,alpha,beta):
         res = res.expand()
     return res
 
-
 def sigmaNContrib(n):
 
     normalizer = c2n(n)
@@ -204,36 +225,6 @@ def sigmaNContrib(n):
             expr = "[\\ad_x^{%d}(y),[\\ad_x^{%d}(y),\\ad_x^{%d}(y)]]" % (alpha,beta,gamma)
             print(latex(adjustCabcForSigma(alpha,beta,gamma,n) / normalizer),expr)
 
-
-
-
-
-def bracketingStrToElement(expr):
-    opener = -1
-    comma = -1
-    depth = 0
-    for i in range(len(expr)):
-        if expr[i] == '[':
-            if opener == -1:
-                opener = i
-            else:
-                depth +=1
-        if expr[i] == ']':
-            if depth == 0:
-                if comma == -1:
-                    raise ValueError("Missing ',' in expression")
-                else:
-                    A = bracketingStrToElement(expr[opener+1:comma])
-                    B = bracketingStrToElement(expr[comma+1:i])
-                    return lieBracket(A,B)
-            else:
-                depth -= 1
-
-        if opener != -1 and expr[i] == ',' and depth == 0:
-            comma = i
-
-    return LieElement({expr.strip():1})
-
 def sigma5Depth3():
     return 10*bracketingStrToElement("[x,[x,[x,[x,y]]]]") + 5 * bracketingStrToElement("[[x,y],[x,[x,y]]]") + 20 * bracketingStrToElement("[y,[x,[x,[x,y]]]]")
 
@@ -255,15 +246,7 @@ def discardHigherDepths(A,n):
 def discardZeros(A):
     return LieElement({key:A[key] for key in A if A[key] != 0})
 
-#n=5
-#e1 = zeta(11)
-#e2 = Rational(22020/3553) * zeta(3)**2 * zeta(5) + zetaSV(5,3,3)
-#n=6
-#e1 = zeta(13)
-#e2 = zeta(5,5,3) - Rational(203950/5681) * zeta(5)**2 * zeta(3)
-#e3 = zeta(7,3,3) - Rational(244740/5681) * zeta(5)**2 * zeta(3) + Rational(123508/7429)* zeta(7) * zeta(3)**2
-
-def n5():
+def checkCorrectGeneratorsFor11():
     e1, e2 = var("e1,e2")
     s3 = sigma3Depth3()
     s5 = sigma5Depth3()
@@ -273,19 +256,16 @@ def n5():
     s335 = discardHigherDepths(s335, 3)
     s335 = discardZeros(s335)
     s335 *= Rational(-323323/2400) * e2 / (2*pi*i)**11
-    X5 = XDepth3(5)
+    X5 = tauDepth3(5)
     X5 = discardZeros(X5)
 
     temp = X5 - s335
     temp = discardZeros(temp)
     print(temp)
 
-
-def n6():
+def checkCorrectGeneratorsFor13():
     e1, e2, e3 = var("e1,e2,e3")
-    #createCache()
-    #exit()
-    #print(bracketingStrToElement("[[x,y],[x,[x,[x,y]]]]"))
+
     s3 = sigma3Depth3()
     s5 = sigma5Depth3()
     s7 = sigma7Depth3()
@@ -295,7 +275,6 @@ def n6():
     s553 = discardHigherDepths(s553, 3)
     s553 = discardZeros(s553)
     s553 *= Rational(-676039/600)*e2/(2*i*pi)**13
-    #print(s553)
 
     I1 = IharaBracket(s3, s7)
     I1 = discardHigherDepths(I1, 2)
@@ -303,17 +282,10 @@ def n6():
     s733 = discardHigherDepths(s733, 3)
     s733 = discardZeros(s733)
     s733 *= -Rational(482885/672)*e2/(2*i*pi)**13 + Rational(2414425/4032)*e3/(2*i*pi)**13
-    #print(s733)
 
-    X13 = XDepth3(6)
+    X13 = tauDepth3(6)
     X13 = discardZeros(X13)
     temp = X13 - s553 - s733
     temp = discardZeros(temp)
     print(temp)
 
-if __name__ == "__main__":
-    #createCache()
-    n5()
-    #print(n6())
-
-    #sigmaNContrib(6)

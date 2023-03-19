@@ -1,12 +1,9 @@
 import itertools
-
 import networkx as nx
 import numpy as np
 from operator import itemgetter
 from isoResolving import *
-import sympy as sp
 
-#Or do that they have to be -1 TODO
 def nodeMatchMarked(u,v):
     return (( "extNr" not in u) and ("extNr" not in v)) or (( "extNr" in u) and ("extNr" in v) and u["extNr"] == v["extNr"])
 
@@ -24,16 +21,11 @@ def mark1Vertex(C):
     dC = []
     for cof, G in C:
         dG = []
-        #permFactor = np.math.factorial(len(G.nodes)-1)
         for v in G.nodes:
             H = G.copy()
-            #H.nodes[v]["ext"] = True
             H.nodes[v]["extNr"] = 1
             dG += [[cof,H]]
         dG = resolveMarkedIsos(dG)
-        GM = nxiso.GraphMatcher(G, G, node_match=nodeMatchMarked)
-        #autSize = len(list(GM.isomorphisms_iter()))
-        #dG = [[cof/autSize,G] for cof,G in dG]
         dC += dG
 
     return dC
@@ -120,8 +112,6 @@ def deltaMarkedGraphs(C):
                 if G.degree[v] >= 2:
                     HExt.nodes[0]["extNr"] = G.nodes[v]["extNr"]
                     out= graphComposition(G,HExt,v,coef=cof)
-                    #for el in out:
-                    #    el[0] *= 1
                     dG += out
             else:
                 if G.degree[v] >= 4:
@@ -145,13 +135,9 @@ def deltaMarkedGraphs(C):
 def psiWillwacher(C):
     dC = []
     for cof, G in C:
-        #GM = nxiso.GraphMatcher(G, G, node_match=nodeMatchMarked)
-        #autSize = len(list(GM.isomorphisms_iter()))
-
         for e in G.edges:
             H = G.copy() #type: nx.MultiGraph
             orderE = H.edges[e]['order']
-            ord = getOrder(H)
             for e2 in H.edges:
                 if H.edges[e2]['order'] > orderE:
                     H.edges[e2]['order'] -=1
@@ -163,7 +149,6 @@ def psiWillwacher(C):
             H2.nodes[e[0]]['extNr'] = 2
             H2.nodes[e[1]]['extNr'] = 1
 
-            #dC += [[sp.Rational(cof)/autSize * (-1)**(orderE-1),H],[sp.Rational(cof)/autSize * (-1)**(orderE-1),H2]]
             dC += [[cof * (-1)**(orderE-1),H],[cof * (-1)**(orderE-1),H2]]
 
     return dC

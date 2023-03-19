@@ -39,7 +39,7 @@ def ATCoefDepth3(a,b,c,d,mpl=None):
 
 def interpolationAssociatorDepth3(a,b,c,d,t=1,mpl=None):
     if mpl is None:
-        mpl = startHyperlogProd()
+        mpl = startHyperlogProc()
     m = a+b+c+d
     if (m+3) % 2 == 1:
         n = int((m+2)/2)
@@ -63,7 +63,7 @@ def interpolationAssociatorDepth3(a,b,c,d,t=1,mpl=None):
 if __name__ == "__main__":
     print(ATCoefDepth3(0,0,1,4))
     exit()
-    mpl = startHyperlogProd()
+    mpl = startHyperlogProc()
     for n in range(6,7):
         m = n - 3
         print("\\subsection{words of length %d}" % n)
@@ -86,34 +86,3 @@ if __name__ == "__main__":
         
     exit()
     #"""
-
-    mpl = startHyperlogProd()
-    n = 9
-    m = n-3
-    #a,b,c,d = 4,2,0,4
-    for a in range(0,m+1):
-        for b in range(0,m+1-a):
-            for d in range(0,m+1-a-b):
-                c = m - a - b - d
-                ogD = rhsDoubleIntegralPart(n,a,b,c,d,t=1)
-                atT = rhsDoubleIntegralPart(n,a,b,c,d,t=Rational(1/2))
-                atD = rhsTripleIntegralPart(n,a,b,c,d,t=1)
-                ogT = rhsTripleIntegralPart(n,a,b,c,d,t=Rational(1/2))
-
-                if ogD != 0 and ogT != 0:
-                    print(atD/ogD, atT/ogT)
-                else:
-                    if ogD == 0 and ogT != 0:
-                        print("Double og zero, at :", atD, "Triple:", atT/ogT)
-                    if atT == 0 and atD != 0:
-                        print("Double:", atD/ogD, "Triple og zero, at:", atT)
-                    else:
-                        print("all zero")
-
-                #C1 = interpolationAssociatorDepth3(a,b,c,d,mpl=mpl)
-                #C2 = convertToBrownBasis(simplifyWithMaple(mpl,Integer(-1)**(a+b+c+d+3) * KZCoefDepth3(a,b,c,d)))
-                #print(C1)
-                #print(C2)
-                #exit()
-                #print(C1 - C2)
-    exit()

@@ -3,7 +3,7 @@ import numpy as np
 from GCboundary import *
 from sage.all import *
 from tderIdentification import *
-path = "/media/Transfer/ETH/MscArbeit/Images/"
+path = "./output/"
 
 H = nx.cycle_graph(6,nx.MultiGraph)
 H.add_edges_from([[1,5],[1,4],[2,4],[0,3]])
@@ -13,8 +13,6 @@ for i,e in enumerate(H.edges):
 G = nx.wheel_graph(6,nx.MultiGraph)
 for i,e in enumerate(G.edges):
     G.edges[e]['order'] = i+1
-
-nx.write_edgelist(G,"fiveWheel")
 
 C = [[1,G],[-Rational(5/2),H]]
 
@@ -47,13 +45,3 @@ pltChain(tder,pos6Cycle,path=path+"fiveWheelTder")
 
 phiElement = step6Willwacher(T)
 print(phiElement)
-
-res = deltaMarkedGraphs(gamma2)
-res = resolveMarkedIsos(res)
-res = resolveMarkedVanishing(res)
-
-#res = [[-cof,G] for (cof,G) in res]
-res += gamma2Dash
-res = resolveMarkedIsos(res)
-print(res)
-#pltChain(res,pos7Cycle,path="out")

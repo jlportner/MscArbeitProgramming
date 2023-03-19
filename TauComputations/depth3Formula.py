@@ -1,10 +1,6 @@
-import pickle
-
+from mapleHandler import *
+from depth12Formula import *
 import numpy as np
-
-from mzvCalc import *
-import sage.misc.persist
-
 def matLine(m,a,b,c,d):
     line = []
     for gamma in range(int(m / 3 + 1), m + 1):
@@ -20,7 +16,7 @@ def matLine(m,a,b,c,d):
 
 def fullMatAndRhs(n,mpl=None):
     if mpl is None:
-        mpl = startHyperlogProd()
+        mpl = startHyperlogProc()
     m = 2 * n - 2
     M = []
     rhs = []
@@ -30,19 +26,17 @@ def fullMatAndRhs(n,mpl=None):
                 c = m - a - b - d
                 assert c >= 0 and a+b+c+d == m
                 mL =  matLine(m, a, b, c, d)
-                #print(a,b,c,d,mL)
                 line = rhsLine(n, a, b, c, d)
                 line = simplifyWithMaple(mpl, line)
                 M += [mL]
                 rhs += [line]
-                #print(mL, line)
 
     M = np.array(M, dtype=int)
     return M, rhs
 
 def fullRankMatAndRhs(n,mpl=None):
     if mpl is None:
-        mpl = startHyperlogProd()
+        mpl = startHyperlogProc()
     m = 2*n-2
     M = []
     varList = []
@@ -207,7 +201,7 @@ def cabcPart(n,a,b,c,d,t=1):
     return result
 
 def createCache():
-    mpl = startHyperlogProd()
+    mpl = startHyperlogProc()
 
     cache = {}
     for n in range(2,8):
@@ -223,23 +217,21 @@ def createCache():
 
 def cabc(alpha,beta,gamma):
     if not hasattr(cabc, "cache"):
+        if not os.path.isfile("cabcCache.dat"):
+            createCache()
         with open('cabcCache.dat', 'r') as f:
             data = f.read()
             cabc.cache = sage_eval(data,locals={'zeta': zeta})
 
-
     return cabc.cache[(alpha,beta,gamma)]
-
 
 def cDepth3(n,mpl=None):
     A,b,varList = fullRankMatAndRhs(n,mpl)
     A = matrix(A)
-    #print(A)
     b = matrix(b).T
     sol = A.solve_right(b)
     sol = [x[0] for x in sol]
     return sol,varList
-
 
 def checkDimension(exprList):
     base = [zetaSV(9,3,3), zetaSV(7,3,5), zeta(5)**3, zeta(7) * zeta(5) * zeta(3), zeta(9) * zeta(3)**2, zeta(15)]
@@ -260,21 +252,3 @@ def checkDimension(exprList):
 
     M = matrix(SR,M)
     return M
-
-if __name__ == "__main__":
-    #createCache()
-
-    #x^3 y y y x^5
-    n = 7
-    m = 2 * n - 2
-    mpl = startHyperlogProd()
-    sol, _ = cDepth3(n,mpl)
-    M = checkDimension(sol)
-    print(M)
-    print("Rank:", M.rank())
-    print(M.echelon_form())
-    exit()
-    expr = simplifyWithMaple(mpl,rhsLine(5,2,0,0,6))
-    expr2 = (convertToBrownBasis(expr))
-    expr2 = simplifyWithMaple(mpl,expr2)
-    print(expr-expr2)

@@ -1,5 +1,4 @@
 import subprocess
-
 import networkx as nx
 import numpy as np
 from GCboundary import *
@@ -116,20 +115,3 @@ def simplifyLieExpressionWithSage(expr, vars):
     result = subprocess.run(["sage","-c",cmd], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     simpleExpr = result.stdout
     return str(simpleExpr)[2:-3]
-
-if __name__ == "__main__":
-    G = nx.wheel_graph(6, nx.MultiGraph)
-    for i, e in enumerate(G.edges):
-        G.edges[e]['order'] = i + 1
-    C = psiWillwacher([[1,G]])
-    C = resolveMarkedIsos(C)
-    C = resolveMarkedVanishing(C)
-
-    posFunc = lambda x: nx.circular_layout(nx.cycle_graph(4), center=x, scale=100)
-    dC = orientGraphForSder(C)
-    dC = resolveDirectedMarkedIsos(dC)
-    dC = resolveDirectedMarkedVanishing(dC)
-
-    print(tderToLie(dC))
-    print(step6Willwacher(C))
-    pltChain(C,posFunc)

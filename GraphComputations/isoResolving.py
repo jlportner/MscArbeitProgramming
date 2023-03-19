@@ -20,15 +20,6 @@ def getEdgePerm(F1, F2, g):
     perm = Permutation(sig - 1.0)
     return (-1) ** perm.parity()
 
-"""
-def getNodePerm(g,attributes):
-    g = np.array(list(g.items()))
-    sortInd = g[:,0].argsort()
-    gSorted = g[sortInd]
-    perm = Permutation(gSorted[:,1])
-    return (-1) ** perm.parity()
-"""
-
 def resolveIsos(dG, withCof = True, node_match=None,edge_match=None, graphMatcher=nxiso.MultiGraphMatcher):
     i = 0
     dG = dG.copy()
